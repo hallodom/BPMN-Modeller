@@ -5,6 +5,9 @@
 
 // Class declaration for BPMNELement super class
 
+/*
+ * Testing comments for git
+ */
 function BPMNElement(width, height, x, y, idName, label)
 {
 	/*-- Constructor --*/
