@@ -7,6 +7,9 @@
 
 /*
  * Testing comments for git
+ * 
+ * Even more comments for testing repo. 
+ * 
  */
 function BPMNElement(width, height, x, y, idName, label)
 {
