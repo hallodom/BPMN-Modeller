@@ -1,0 +1,8 @@
+#Sat Oct 09 10:32:15 BST 2010
+Console.lowWaterMark=800000
+eclipse.preferences.version=1
+Console.highWaterMark=808000
+preferredTargets=default\:default|
+org.eclipse.debug.ui.save_dirty_editors_before_launch=always
+org.eclipse.debug.ui.PREF_LAUNCH_PERSPECTIVES=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\r\n<launchPerspectives/>\r\n
+org.eclipse.debug.ui.user_view_bindings=<?xml version\="1.0" encoding\="UTF-8"?>\n<viewBindings>\n<view id\="org.eclipse.ui.console.ConsoleView">\n<perspective id\="org.eclipse.jdt.ui.JavaPerspective" userAction\="opened"/>\n</view>\n</viewBindings>\n
