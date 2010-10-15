@@ -219,5 +219,47 @@
 
 	};
 	window['BPMNMCG']['drawAssociation'] = drawAssociation;
+	
+	function drawPool(params) {
+		params = params || {};
+		
+		// There are probably a few critical variables here that should necessarily be defined and therefore can throw errors
+		// if undefined
+		this.xStart = params.xStart || 100;
+		this.yStart = params.yStart || 200;
+		this.width = params.width || 800;
+		this.height = params.height || 200;
+		this.label = params.label || 'untitled';
+		
+		// Maybe objects can always implement a draw method as part of an interface
+		// that can later be used in the command pattern?
+		this.draw = function() {
+			
+			// Start by parsing objects properties then organise default fall backs
+			// Check data types and value ranges
+
+			ctx.beginPath();
+			ctx.moveTo(this.xStart, this.yStart);
+			
+			// Lineto should be defined by box width
+			ctx.lineTo(this.xStart + this.width, this.yStart);
+			// Move line up
+			ctx.lineTo(this.xStart + this.width, this.yStart - this.height);
+			ctx.lineTo(this.width - this.width + this.xStart, this.yStart - this.height);
+			// Next Line to should be defined by height of the box
+
+			ctx.closePath();
+			ctx.stroke();
+		};
+		this.getLabel = function() {
+			return this.label;
+		};
+		
+		//return this object
+		return this;
+
+	};
+	
+	window['BPMNMCG']['drawPool'] = drawPool;
 
 })();

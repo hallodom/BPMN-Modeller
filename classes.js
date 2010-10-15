@@ -161,6 +161,9 @@ BPMNMCG.drawSequenceFlow(ctx, 200, 400, 600, 400);
 BPMNMCG.drawMessageFlow(ctx, 200, 500, 600, 500);
 BPMNMCG.drawAssociation(ctx, 200, 600, 600, 600);
 
+// Using object notation for specifying parameters
+var test = new BPMNMCG.drawPool({xStart:30,yStart:850,width:800,height:200,label:'First pool'});
+test.draw();
 /*
  * Class Extend function - performs classical inheritence
  */
