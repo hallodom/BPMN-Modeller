@@ -45,7 +45,8 @@
 
 			ctx.fill();
 			ctx.stroke();
-		}
+		};
+		return this;
 	};
 	window['BPMNMCG']['Activity'] = Activity;
 
@@ -82,153 +83,207 @@
 			ctx.fillStyle = this.fillColour;
 			ctx.fill();
 			ctx.stroke();
-		}
+		};
+		return this;
 	};
 	window['BPMNMCG']['Group'] = Group;
 
-	function drawPathCircle(ctx, x, y, radius) {
+	function Event(params) {
+		params = params || {};
 
-		ctx.beginPath();
-		ctx.arc(x, y, radius, 0, Math.PI * 2, true); // Outer circle
-		ctx.stroke();
+		this.xStart = params.xStart || 60;
+		this.yStart = params.yStart || 300;
+		this.width = params.width || 40;
+		this.height = params.height || 40;
+		this.radius = this.width / 2;
+		this.lineWidth = 4;
+		// Event can be of type start or end.
+		if (typeof (params.type) !== 'undefined') {
+			this.type = params.type;
+		} else {
+			this.type = 'start';
+		}
+
+		this.draw = function() {
+
+			// Check type
+			ctx.save();
+			ctx.beginPath();
+			if (this.type == 'start') {
+				ctx.strokeStyle = "rgba(30,255,116,1)";
+			} else if (this.type == 'end') {
+				ctx.strokeStyle = "rgba(255,75,75,1)";
+			}
+
+			ctx.arc(this.xStart, this.yStart, this.radius, 0, Math.PI * 2, true);
+			ctx.lineWidth = 4;
+			ctx.stroke();
+			ctx.restore();
+
+		};
+		// alert(this.type);
+		return this;
 
 	};
-	window['BPMNMCG']['drawPathCircle'] = drawPathCircle;
+	window['BPMNMCG']['Event'] = Event;
 
-	function drawPathDiamond(ctx, x, y, width) {
+	function Gateway(params) {
+
+		params = params || {};
+
+		this.xStart = params.xStart || 30;
+		this.yStart = params.yStart || 200;
+		this.width = params.width || 65;
+		this.height = params.height || 65;
+
+		this.draw = function() {
+			// Stroked triangle
+			ctx.beginPath();
+			// Start path at moveTo location
+			ctx.moveTo(this.xStart, this.yStart);
+			ctx.lineTo(this.xStart + (this.width / 2), this.yStart + (this.width / 2));
+			ctx.lineTo(this.xStart + this.width, this.yStart);
+			ctx.lineTo(this.xStart + (this.width / 2), this.yStart - (this.width / 2));
+			ctx.closePath();
+			ctx.stroke();
+
+		};
+		return this;
+
+	};
+	window['BPMNMCG']['Gateway'] = Gateway;
+
+	function SequenceFlow(params) {
+
+		params = params || {};
+
+		this.xStart = params.xStart || 200;
+		this.yStart = params.yStart || 400;
+		this.xEnd = params.xEnd || this.xStart * 3;
+		this.yEnd = params.yEnd || this.yStart;
 
 		// Stroked triangle
 		ctx.beginPath();
 		// Start path at moveTo location
-		ctx.moveTo(x, y);
-		ctx.lineTo(x + (width / 2), y + (width / 2));
-		ctx.lineTo(x + width, y);
-		ctx.lineTo(x + (width / 2), y - (width / 2));
-		ctx.closePath();
-		ctx.stroke();
-
-	};
-	window['BPMNMCG']['drawPathDiamond'] = drawPathDiamond;
-
-	function drawSequenceFlow(ctx, xStart, yStart, xEnd, yEnd, width) {
-
-		// Start point
-		// End point
-		// TODO: if xEnd is different from starting end then need to start using
-		// quadratic curves to correct ratio
-
-		// Stroked triangle
-		ctx.beginPath();
-		// Start path at moveTo location
-		ctx.moveTo(xStart, yStart);
-		ctx.lineTo(xEnd, yEnd);
+		ctx.moveTo(this.xStart, this.yStart);
+		ctx.lineTo(this.xEnd, this.yEnd);
 
 		// Draw arrow head based on line width
 		// TODO: arrow head dependent on line width some how
 		// length of the arrow head can be dependant on width.
+		this.draw = function() {
+			// 'Lift pencil' so we don't get a fill
+			ctx.moveTo(this.xEnd, this.yEnd);
 
-		// 'Lift pencil' so we don't get a fill
-		ctx.moveTo(xEnd, yEnd);
+			// TODO: Make number 4 here the stroke width
 
-		// TODO: Make number 4 here the stoke width
-
-		ctx.lineTo(xEnd, yEnd + 4);
-		ctx.lineTo(xEnd + (4 * 4), yEnd);
-		ctx.lineTo(xEnd, yEnd - 4);
-		ctx.fillStyle = '#000';
-		ctx.fill();
-		ctx.closePath();
-		ctx.stroke();
+			ctx.lineTo(this.xEnd, this.yEnd + 4);
+			ctx.lineTo(this.xEnd + (4 * 4), this.yEnd);
+			ctx.lineTo(this.xEnd, this.yEnd - 4);
+			ctx.fillStyle = '#000';
+			ctx.fill();
+			ctx.closePath();
+			ctx.stroke();
+		};
+		return this;
 
 	};
-	window['BPMNMCG']['drawSequenceFlow'] = drawSequenceFlow;
+	window['BPMNMCG']['SequenceFlow'] = SequenceFlow;
 
-	function drawMessageFlow(ctx, xStart, yStart, xEnd, yEnd, width) {
+	function MessageFlow(params) {
 
-		// TODO: if xEnd is different from starting end then need to start using
-		// quadratic curves to correct ratio
+		params = params || {};
+
+		this.xStart = params.xStart || 200;
+		this.yStart = params.yStart || 500;
+		this.xEnd = params.xEnd || this.xStart * 3;
+		this.yEnd = params.yEnd || this.yStart;
 
 		var radius = (4 * 2) / 1.8;
 		// Want to start arrow line after the circle so add radius to xStart
-		var newStartX = xStart + radius;
+		var newStartX = this.xStart + radius;
 
 		// Need to get line length to calculate dash widths - take starting
 		// point from end point
-		var lineLength = xStart - xEnd;
+		var lineLength = this.xStart - this.xEnd;
 		// Make number positive by taking away itself * 2 to bring it into
 		// positive number realm
 		lineLength = lineLength - (lineLength * 2);
 
-		// Use local method to draw circle
-		drawPathCircle(ctx, xStart, yStart, radius);
+		this.draw = function() {
 
-		// Start path at moveTo location to draw line
-		ctx.moveTo(newStartX, yStart);
+			// Draw circle starting point
+			ctx.beginPath();
+			ctx.arc(this.xStart, this.yStart, radius, 0, Math.PI * 2, true); // Outer
+			ctx.stroke();
 
-		ctx.dashedLineTo(xStart + radius, yStart, xEnd, yEnd, [ 20, 15 ]);
+			// Start path at moveTo location to draw line
+			ctx.moveTo(newStartX, this.yStart);
 
-		// Draw arrow head based on line width
-		// TODO: arrow head dependent on line width some how
-		// length of the arrow head can be dependent on width.
+			ctx.dashedLineTo(this.xStart + radius, this.yStart, this.xEnd, this.yEnd, [ 20, 15 ]);
 
-		// 'Lift pencil' so we don't get a fill
-		ctx.moveTo(xEnd, yEnd);
+			// Draw arrow head based on line width
+			// TODO: arrow head dependent on line width some how
+			// length of the arrow head can be dependent on width.
 
-		// TODO: Make number 4 here the stroke width
+			// 'Lift pencil' so we don't get a fill
+			ctx.moveTo(this.xEnd, this.yEnd);
 
-		ctx.lineTo(xEnd, yEnd + radius);
-		ctx.lineTo(xEnd + (4 * (radius / 1.5)), yEnd);
-		ctx.lineTo(xEnd, yEnd - radius);
-		ctx.fillStyle = '#fff';
-		ctx.fill();
-		ctx.closePath();
-		ctx.stroke();
+			// TODO: Make number 4 here the stroke width
+
+			ctx.lineTo(this.xEnd, this.yEnd + radius);
+			ctx.lineTo(this.xEnd + (4 * (radius / 1.5)), this.yEnd);
+			ctx.lineTo(this.xEnd, this.yEnd - radius);
+			ctx.fillStyle = '#fff';
+			ctx.fill();
+			ctx.closePath();
+			ctx.stroke();
+		};
 
 	};
-	window['BPMNMCG']['drawMessageFlow'] = drawMessageFlow;
+	window['BPMNMCG']['MessageFlow'] = MessageFlow;
 
-	function drawAssociation(ctx, xStart, yStart, xEnd, yEnd, width) {
-		// Start point
-		// End point
+	function Association(params) {
+		params = params || {};
+
+		this.xStart = params.xStart || 200;
+		this.yStart = params.yStart || 600;
+		this.xEnd = params.xEnd || this.xStart * 3;
+		this.yEnd = params.yEnd || this.yStart;
+
 		// TODO: if xEnd is different from starting end then need to start using
 		// quadratic curves to correct ratio
+		this.draw = function() {
+			ctx.beginPath();
+			// Start path at moveTo location
+			ctx.moveTo(this.xStart, this.yStart);
 
-		ctx.beginPath();
-		// Start path at moveTo location
-		ctx.moveTo(xStart, yStart);
+			ctx.dashedLineTo(this.xStart, this.yStart, this.xEnd + 6, this.yEnd, [ 5, 5 ]);
 
-		ctx.dashedLineTo(xStart, yStart, xEnd + 6, yEnd, [ 5, 5 ]);
+			// Draw arrow head based on line width
+			// TODO: arrow head dependent on line width some how
+			// length of the arrow head can be dependant on width.
 
-		// Draw arrow head based on line width
-		// TODO: arrow head dependent on line width some how
-		// length of the arrow head can be dependant on width.
+			// 'Lift pencil' so we don't get a fill
+			ctx.moveTo(this.xEnd, this.yEnd);
+			ctx.moveTo(this.xEnd + (4 * 4), this.yEnd);
 
-		// 'Lift pencil' so we don't get a fill
-		ctx.moveTo(xEnd, yEnd);
-		ctx.moveTo(xEnd + (4 * 4), yEnd);
+			// TODO: Make number 4 here the stroke width
 
-		// TODO: Make number 4 here the stoke width
-
-		ctx.lineTo(xEnd, yEnd + 6);
-		ctx.moveTo(xEnd + (4 * 4), yEnd);
-		ctx.lineTo(xEnd, yEnd - 6);
-		ctx.moveTo(xEnd + (4 * 4), yEnd);
-		ctx.closePath();
-		ctx.stroke();
+			ctx.lineTo(this.xEnd, this.yEnd + 6);
+			ctx.moveTo(this.xEnd + (4 * 4), this.yEnd);
+			ctx.lineTo(this.xEnd, this.yEnd - 6);
+			ctx.moveTo(this.xEnd + (4 * 4), this.yEnd);
+			ctx.closePath();
+			ctx.stroke();
+		};
 
 	};
-	window['BPMNMCG']['drawAssociation'] = drawAssociation;
+	window['BPMNMCG']['Association'] = Association;
 
 	function Pool(params) {
 		params = params || {};
 
-		// There are probably a few critical variables here that should
-		// necessarily be defined and therefore can throw errors
-		// if undefined
-
-		// Start by parsing objects properties then organise default fall
-		// backs
-		// Check data types and value ranges
 		this.xStart = params.xStart || 100;
 		this.yStart = params.yStart || 200;
 		this.width = params.width || 800;
@@ -356,7 +411,6 @@
 			// Stroke
 			ctx.stroke();
 			ctx.closePath();
-			// console.log('drawed');
 
 		};
 		// return this object
@@ -393,12 +447,16 @@
 			ctx.stroke();
 
 		};
+		return this;
 
 	};
 	window['BPMNMCG']['TextAnnotation'] = TextAnnotation;
 
 })();
 
+// This function extends the Canvas object to add a dashedLineTo function
+// Original source from:
+// http://davidowens.wordpress.com/category/programming/javascript/
 CanvasRenderingContext2D.prototype.dashedLineTo = function(fromX, fromY, toX, toY, pattern) {
 	// Our growth rate for our line can be one of the following:
 	// (+,+), (+,-), (-,+), (-,-)

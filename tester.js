@@ -7,11 +7,23 @@ var activity = new BPMNMCG.Activity();
 activity.draw();
 
 // TODO: update these methods to object declarations
-BPMNMCG.drawPathDiamond(ctx, 20, 200, 80);
-BPMNMCG.drawPathCircle(ctx, 60, 300, 30);
-BPMNMCG.drawSequenceFlow(ctx, 200, 400, 600, 400);
-BPMNMCG.drawMessageFlow(ctx, 200, 500, 600, 500);
-BPMNMCG.drawAssociation(ctx, 200, 600, 600, 600);
+var gateway = new BPMNMCG.Gateway();
+gateway.draw();
+
+var startEvent = new BPMNMCG.Event();
+startEvent.draw();
+
+var endEvent = new BPMNMCG.Event({xStart:120,type:'end'});
+endEvent.draw();
+
+var sequenceFlow = new BPMNMCG.SequenceFlow();
+sequenceFlow.draw();
+
+var messageFlow = new BPMNMCG.MessageFlow();
+messageFlow.draw();
+
+var association = new BPMNMCG.Association();
+association.draw();
 
 // Using object notation for specifying parameters
 var test = new BPMNMCG.Pool({
