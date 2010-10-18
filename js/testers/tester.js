@@ -3,30 +3,30 @@
 // Testing the BPMNMCG functions
 var ctx = document.getElementById('canvas').getContext('2d');
 
-var activity = new BPMNMCG.Activity();
+var activity = new BPMNM.CG.Activity();
 activity.draw();
 
 // TODO: update these methods to object declarations
-var gateway = new BPMNMCG.Gateway();
+var gateway = new BPMNM.CG.Gateway();
 gateway.draw();
 
-var startEvent = new BPMNMCG.Event();
+var startEvent = new BPMNM.CG.Event();
 startEvent.draw();
 
-var endEvent = new BPMNMCG.Event({xStart:120,type:'end'});
+var endEvent = new BPMNM.CG.Event({xStart:120,type:'end'});
 endEvent.draw();
 
-var sequenceFlow = new BPMNMCG.SequenceFlow();
+var sequenceFlow = new BPMNM.CG.SequenceFlow();
 sequenceFlow.draw();
 
-var messageFlow = new BPMNMCG.MessageFlow();
+var messageFlow = new BPMNM.CG.MessageFlow();
 messageFlow.draw();
 
-var association = new BPMNMCG.Association();
+var association = new BPMNM.CG.Association();
 association.draw();
 
 // Using object notation for specifying parameters
-var test = new BPMNMCG.Pool({
+var test = new BPMNM.CG.Pool({
 	xStart : 30,
 	yStart : 900,
 	width : 800,
@@ -35,7 +35,7 @@ var test = new BPMNMCG.Pool({
 });
 test.draw();
 
-var test2 = new BPMNMCG.Pool({
+var test2 = new BPMNM.CG.Pool({
 	xStart : 30,
 	yStart : 1350,
 	width : 800,
@@ -45,12 +45,12 @@ var test2 = new BPMNMCG.Pool({
 });
 test2.draw();
 
-var dataObject = new BPMNMCG.DataObject({
+var dataObject = new BPMNM.CG.DataObject({
 	yStart : 1500
 });
 dataObject.draw();
 
-var textAnnotation = new BPMNMCG.TextAnnotation({
+var textAnnotation = new BPMNM.CG.TextAnnotation({
 	xStart : 200,
 	yStart : 1650,
 	xEnd : 100,
@@ -58,7 +58,7 @@ var textAnnotation = new BPMNMCG.TextAnnotation({
 });
 textAnnotation.draw();
 
-var group = new BPMNMCG.Group({
+var group = new BPMNM.CG.Group({
 	xStart : 100,
 	yStart : 1900,
 	width : 200,

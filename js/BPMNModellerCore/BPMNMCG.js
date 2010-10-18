@@ -7,15 +7,21 @@
 
 // Create name space BPMNMCoreGraphics (BPMNMCG)
 (function() {
-	if (!window.BPMNMCG) {
-		window['BPMNMCG'] = {};
+	// Set up names spaces
+	if (!window.BPMNM) {
+		window['BPMNM'] = {};
+	};
+	if (!window.BPMNM.CG) {
+		window['BPMNM']['CG'] = {};
 	};
 
 	function Activity(params) {
 		params = params || {};
-
-		this.xStart = params.xStart || 30;
-		this.yStart = params.yStart || 30;
+		
+		var ctx = params.ctx;
+		var myparameter =   
+		this.xStart = 'xStart' in params ? params.xStart: 0;
+		this.yStart = 'yStart' in params ? params.yStart: 0;
 		this.width = params.width || 140;
 		this.height = params.height || 100;
 
@@ -48,7 +54,9 @@
 		};
 		return this;
 	};
-	window['BPMNMCG']['Activity'] = Activity;
+	
+	
+	window['BPMNM']['CG']['Activity'] = Activity;
 
 	function Group(params) {
 		// TODO: Implement border width across other GC elements.
@@ -86,11 +94,12 @@
 		};
 		return this;
 	};
-	window['BPMNMCG']['Group'] = Group;
+	window['BPMNM']['CG']['Group'] = Group;
 
 	function Event(params) {
 		params = params || {};
-
+		
+		var ctx = params.ctx;
 		this.xStart = params.xStart || 60;
 		this.yStart = params.yStart || 300;
 		this.width = params.width || 40;
@@ -125,7 +134,7 @@
 		return this;
 
 	};
-	window['BPMNMCG']['Event'] = Event;
+	window['BPMNM']['CG']['Event'] = Event;
 
 	function Gateway(params) {
 
@@ -151,7 +160,7 @@
 		return this;
 
 	};
-	window['BPMNMCG']['Gateway'] = Gateway;
+	window['BPMNM']['CG']['Gateway'] = Gateway;
 
 	function SequenceFlow(params) {
 
@@ -188,7 +197,7 @@
 		return this;
 
 	};
-	window['BPMNMCG']['SequenceFlow'] = SequenceFlow;
+	window['BPMNM']['CG']['SequenceFlow'] = SequenceFlow;
 
 	function MessageFlow(params) {
 
@@ -241,7 +250,7 @@
 		};
 
 	};
-	window['BPMNMCG']['MessageFlow'] = MessageFlow;
+	window['BPMNM']['CG']['MessageFlow'] = MessageFlow;
 
 	function Association(params) {
 		params = params || {};
@@ -279,7 +288,7 @@
 		};
 
 	};
-	window['BPMNMCG']['Association'] = Association;
+	window['BPMNM']['CG']['Association'] = Association;
 
 	function Pool(params) {
 		params = params || {};
@@ -371,7 +380,7 @@
 
 	};
 
-	window['BPMNMCG']['Pool'] = Pool;
+	window['BPMNM']['CG']['Pool'] = Pool;
 
 	function DataObject(params) {
 		params = params || {};
@@ -418,7 +427,7 @@
 
 	};
 
-	window['BPMNMCG']['DataObject'] = DataObject;
+	window['BPMNM']['CG']['DataObject'] = DataObject;
 
 	function TextAnnotation(params) {
 		params = params || {};
@@ -450,7 +459,7 @@
 		return this;
 
 	};
-	window['BPMNMCG']['TextAnnotation'] = TextAnnotation;
+	window['BPMNM']['CG']['TextAnnotation'] = TextAnnotation;
 
 })();
 
