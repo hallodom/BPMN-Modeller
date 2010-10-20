@@ -19,17 +19,14 @@
 		params = params || {};
 		
 		var ctx = params.ctx;
-		var myparameter =   
-		this.xStart = 'xStart' in params ? params.xStart: 0;
-		this.yStart = 'yStart' in params ? params.yStart: 0;
-		this.width = params.width || 140;
-		this.height = params.height || 100;
-
-		this.radius = params.radius || 10;
-
-		this.borderWidth = params.borderWidth || 2;
-		this.strokeColour = params.strokeColour || '#000';
-		this.fillColour = params.fillColour || '#fff';
+		this.xStart = 'xStart' in params ? params.xStart: 30;
+		this.yStart = 'yStart' in params ? params.yStart: 30;
+		this.width = 'width' in params ?params.width: 140; 
+		this.height = 'height' in params ? params.height: 100; 
+		this.radius = 'radius' in params ? params.radius: 10;
+		this.borderWidth = 'borderWidth' in params ? params.borderWidth: 2;
+		this.strokeColour = 'strokeColour' in params ? params.strokeColour: '#000';;
+		this.fillColour = 'fillColour' in params ? params.fillColour: '#fff';
 
 		this.draw = function() {
 
@@ -59,19 +56,18 @@
 	window['BPMNM']['CG']['Activity'] = Activity;
 
 	function Group(params) {
-		// TODO: Implement border width across other GC elements.
+
 		params = params || {};
-
-		this.xStart = params.xStart || 30;
-		this.yStart = params.yStart || 30;
-		this.width = params.width || 140;
-		this.height = params.height || 100;
-
-		this.radius = params.radius || 10;
-
-		this.borderWidth = params.borderWidth || 2;
-		this.strokeColour = params.strokeColour || '#000';
-		this.fillColour = params.fillColour || '#fff';
+		
+		var ctx = params.ctx;
+		this.xStart = 'xStart' in params ? params.xStart: 30;
+		this.yStart = 'yStart' in params ? params.yStart: 30;
+		this.width = 'width' in params ? params.width: 140;
+		this.height = 'height' in params ? params.height: 100;
+		this.radius = 'radius' in params ? params.radius: 10;
+		this.borderWidth = 'borderWidth' in params ? params.borderWidth: 2;
+		this.strokeColour = 'strokeColour' in params ? params.strokeColour: '#000';
+		this.fillColour = 'fillColour' in params ? params.fillColour: '#fff';
 		this.strokePattern = [ 2, 10, 20, 10 ];
 
 		this.draw = function() {
@@ -100,10 +96,14 @@
 		params = params || {};
 		
 		var ctx = params.ctx;
-		this.xStart = params.xStart || 60;
-		this.yStart = params.yStart || 300;
-		this.width = params.width || 40;
-		this.height = params.height || 40;
+		this.xStart = 'xStart' in params ? params.xStart: 60;
+		
+		this.yStart = 'yStart' in params ? params.yStart: 300;
+		
+		this.width = 'width' in params ? params.width: 40;
+		this.width += -2;
+		this.height = 'height' in params ? params.height: 40;
+		this.height +=  -2;
 		this.radius = this.width / 2;
 		this.lineWidth = 4;
 		// Event can be of type start or end.
@@ -139,11 +139,11 @@
 	function Gateway(params) {
 
 		params = params || {};
-
-		this.xStart = params.xStart || 30;
-		this.yStart = params.yStart || 200;
-		this.width = params.width || 65;
-		this.height = params.height || 65;
+		var ctx = params.ctx;
+		this.xStart = 'xStart' in params ? params.xStart: 30;
+		this.yStart = 'yStart' in params ? params.yStart: 200;
+		this.width = 'width' in params ? params.width: 65;
+		this.height = 'height' in params ? params.height: 65;
 
 		this.draw = function() {
 			// Stroked triangle
@@ -165,11 +165,12 @@
 	function SequenceFlow(params) {
 
 		params = params || {};
-
-		this.xStart = params.xStart || 200;
-		this.yStart = params.yStart || 400;
-		this.xEnd = params.xEnd || this.xStart * 3;
-		this.yEnd = params.yEnd || this.yStart;
+		var ctx = params.ctx;
+		
+		this.xStart = 'xStart' in params ? params.xStart: 200;
+		this.yStart = 'yStart' in params ? params.yStart: 400;
+		this.xEnd = 'xEnd' in params ? params.xEnd: this.xStart * 3;
+		this.yEnd = 'yEnd' in params ? params.yEnd: this.yStart;
 
 		// Stroked triangle
 		ctx.beginPath();
@@ -202,11 +203,12 @@
 	function MessageFlow(params) {
 
 		params = params || {};
-
-		this.xStart = params.xStart || 200;
-		this.yStart = params.yStart || 500;
-		this.xEnd = params.xEnd || this.xStart * 3;
-		this.yEnd = params.yEnd || this.yStart;
+		var ctx = params.ctx;
+		
+		this.xStart = 'xStart' in params ? params.xStart: 200;
+		this.yStart = 'yStart' in params ? params.yStart: 500;
+		this.xEnd = 'xEnd' in params ? params.xEnd: this.xStart * 3;
+		this.yEnd = 'yEnd' in params ? params.yEnd: this.yStart;
 
 		var radius = (4 * 2) / 1.8;
 		// Want to start arrow line after the circle so add radius to xStart
@@ -254,12 +256,13 @@
 
 	function Association(params) {
 		params = params || {};
-
-		this.xStart = params.xStart || 200;
-		this.yStart = params.yStart || 600;
-		this.xEnd = params.xEnd || this.xStart * 3;
-		this.yEnd = params.yEnd || this.yStart;
-
+		var ctx = params.ctx;
+		
+		this.xStart = 'xStart' in params ? params.xStart: 200;
+		this.yStart = 'yStart' in params ? params.yStart: 600;
+		this.xEnd = 'xEnd' in params ? params.xEnd: this.xStart * 3;
+		this.yEnd = 'yEnd' in params ? params.yEnd: this.yStart;
+		
 		// TODO: if xEnd is different from starting end then need to start using
 		// quadratic curves to correct ratio
 		this.draw = function() {
@@ -292,13 +295,15 @@
 
 	function Pool(params) {
 		params = params || {};
-
-		this.xStart = params.xStart || 100;
-		this.yStart = params.yStart || 200;
-		this.width = params.width || 800;
-		this.height = params.height || 200;
-		this.label = params.label || 'untitled';
-		this.lanes = params.lanes || 0;
+		var ctx = params.ctx;
+		
+		this.xStart = 'xStart' in params ? params.xStart: 100;
+		this.yStart = 'yStart' in params ? params.yStart: 200;
+		this.width = 'width' in params ? params.width: 800;
+		this.height = 'height' in params ? params.height: 200;
+		this.label = 'label' in params ? params.label: 'untitled';
+		this.lanes = 'lanes' in params ? params.lanes: 0;
+		
 		// Properties for label
 		var labelWidth = 40;
 		var fontSize = 16;
@@ -384,7 +389,7 @@
 
 	function DataObject(params) {
 		params = params || {};
-
+		var ctx = params.ctx;
 		// There are probably a few critical variables here that should
 		// necessarily be defined and therefore can throw errors
 		// if undefined
@@ -392,11 +397,11 @@
 		// Start by parsing objects properties then organise default fall
 		// backs
 		// Check data types and value ranges
-		this.xStart = params.xStart || 100;
-		this.yStart = params.yStart || 200;
-		this.width = params.width || 60;
-		this.height = params.height || 70;
-		this.label = params.label || 'untitled';
+		this.xStart = 'xStart' in params ? params.xStart: 100;
+		this.yStart = 'yStart' in params ? params.yStart: 200;
+		this.width = 'width' in params ? params.width: 60;
+		this.height = 'height' in params ? params.height: 70;
+		this.label = 'label' in params ? params.label: 'untitled';
 
 		// Maybe objects can always implement a draw method as part of an
 		// interface
@@ -431,14 +436,14 @@
 
 	function TextAnnotation(params) {
 		params = params || {};
-
-		this.xStart = params.xStart || 100;
-		this.yStart = params.yStart || 200;
-		this.width = params.width || 20;
-		this.height = params.height || 150;
+		var ctx = params.ctx;
+		this.xStart = 'xStart' in params ? params.xStart: 100;
+		this.yStart = 'yStart' in params ? params.yStart: 200;
+		this.width = 'width' in params ? params.width: 20;
+		this.height = 'height' in params ? params.height: 150;
 		// End point should always be middle of the Annotation text frame
-		this.xEnd = params.xEnd || alert('error');
-		this.yEnd = params.yEnd || alert('error');
+		this.xEnd = 'xEnd' in params ? params.xEnd: alert('error');
+		this.yEnd = 'yEnd' in params ? params.yEnd: alert('error');
 
 		this.draw = function() {
 
